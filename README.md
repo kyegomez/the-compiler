@@ -1,4 +1,4 @@
-# the-compiler
+# The-Compiler
 Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
 
