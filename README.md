@@ -1,6 +1,8 @@
 # The-Compiler
 Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
+![the-compiler](the-compiler.png)
+
 
 # Architectural Analysis for 'Tree of Thoughts' Based Programming Tool
 
