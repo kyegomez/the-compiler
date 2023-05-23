@@ -3,7 +3,7 @@ Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
 ![the-compiler](the-compiler.png)
 
-Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT) paradigm. This project is crafted with the intent of making autonomous programming not just a reality, but an effortless task for you. 
+Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT) paradigm. [Implementation here](https://github.com/kyegomez/tree-of-thoughts) This project is crafted with the intent of making autonomous programming not just a reality, but an effortless task for you. 
 
 In essence, _The Compiler_ allows you to "grow" any program you can dream of. By providing a high-level specification of the product you would like, you can sit back and let _The Compiler_ do the heavy lifting. 
 
