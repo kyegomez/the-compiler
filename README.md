@@ -56,7 +56,7 @@ terminal_commands = re.findall(r"TerminalCommand: (.+)", solution)
 for command in terminal_commands:
     output = terminal_executor.execute(command)
     if output:
-        print(f"Command output: {output}")
+        print(f"Command output: {output}") #
 
 ```
 
