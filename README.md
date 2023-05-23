@@ -1,7 +1,7 @@
 # The-Compiler
 Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
-#usage
+# Usage
 Get started: 
 
 ```git clone https://github.com/kyegomez/the-compiler.git ```
