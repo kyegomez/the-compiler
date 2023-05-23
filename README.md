@@ -40,6 +40,15 @@ and or
 ``` cd the-compiler ```
 
 3rd step
+Create an file called config_json.json and put this inside:
+
+```json
+{
+    "allow_terminal_execution": true
+}
+```
+
+4th step -- create an new file and place this inside
 ``` python
 
 from tree_of_thoughts import OptimizedOpenAILanguageModel
