@@ -7,6 +7,12 @@ Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT
 
 In essence, _The Compiler_ allows you to "grow" any program you can dream of. By providing a high-level specification of the product you would like, you can sit back and let _The Compiler_ do the heavy lifting. 
 
+# Agora, Creators United
+The Compiler is brought to you by Agora, we're an community of creators united under the banner of Humanity.
+We utilize AI research as a means to solve Humanity's biggest obstacles like food production, planetary security, disease, and death
+
+[Join us and advance Humanity](https://discord.gg/qUtxnK2NMf)
+
 ## Overview 
 
 _The Compiler_ leverages the ToT framework and large language models (LLMs) to handle the programming process, from abstract specifications to a working program. 
