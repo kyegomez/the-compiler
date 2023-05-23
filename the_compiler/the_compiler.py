@@ -34,9 +34,9 @@ class ToTRunner:
 
 class TheCompiler:
     def __init__(self, LLM, search_algorithm="DFS"):
-        self.spec_interpreter = SpecInterpreter()
-        self.test_generator = TestGenerator()
-        self.tot_runner = ToTRunner()
+        self.spec_interpreter = SpecInterpreter(LLM)
+        self.test_generator = TestGenerator(LLM)
+        self.tot_runner = ToTRunner(LLM)
         self.tree_of_thoughts = OptimizedTreeofThoughts(LLM, search_algorithm)
 
     def compile(self, input_spec, k, T, b, vth, timeout=None, confidence_threshold=None, max_iterations=None, convergence_threshold=None, convergence_count=None):
