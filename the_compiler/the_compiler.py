@@ -80,7 +80,7 @@ class TheCompiler:
         return program
 
 # Initialize the LLM
-api_key = "your_openai_api_key"
+api_key = "api key"
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
