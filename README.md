@@ -24,7 +24,7 @@ Get started:
 
 ```git clone https://github.com/kyegomez/the-compiler.git ```
 
-and
+and or 
 
 ``` pip install tree-of-thoughts```
 
