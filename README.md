@@ -108,6 +108,14 @@ The Compiler, leveraging the Tree of Thoughts paradigm, consists of several prim
 
 5. **Search Algorithm**: This module determines which states to keep exploring and in which order. It employs either Breadth-First Search (BFS) or Depth-First Search (DFS), depending on the nature of the problem.
 
+# Roadmap
+
+- Integrate langchaina autogpt agent Tree of Thoughts class
+
+- Provide objectives to worker nodes
+
+- Provide access to terminal and other tools
+
 ## Share The Compiler
 
 If you find this project exciting and think others might benefit from it, feel free to share it. Use the buttons below to share it on various social media platforms:
