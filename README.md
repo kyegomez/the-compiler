@@ -1,6 +1,17 @@
 # The-Compiler
 Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
+#usage
+Get started: 
+
+```git clone https://github.com/kyegomez/the-compiler.git ```
+
+2nd step
+``` cd the-compiler ```
+
+3rd step
+```python3 the_compiler.py```
+
 ![the-compiler](the-compiler.png)
 
 
