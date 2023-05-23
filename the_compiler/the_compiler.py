@@ -84,7 +84,7 @@ api_key = "api key"
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
-terminal_executor = TerminalExecutor()
+terminal_executor = TerminalExecutor(config_file="config_file.json")
 
 # Initialize The Compiler with the LLM and TerminalExecutor
 compiler = TheCompiler(LLM, terminal_executor)
