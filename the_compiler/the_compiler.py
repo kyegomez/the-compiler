@@ -10,6 +10,9 @@ import openai
 import os
 import re
 import time
+import concurrent.futures
+from abc import ABC, abstractmethod
+import openai
 
 class AbstractLanguageModel(ABC):
     @abstractmethod
@@ -33,111 +36,25 @@ class CustomLanguageModel(AbstractLanguageModel):
         #implement state evaluation logic using self.model
         pass
 class OpenAILanguageModel(AbstractLanguageModel):
-    def __init__(self, api_key, strategy="cot", evaluation_strategy="value", api_base="", api_model="", enable_ReAct_prompting=True):
-        if api_key == "" or api_key == None:
-            api_key = os.environ.get("OPENAI_API_KEY", "")
-        if api_key != "":
-            openai.api_key = api_key
-        else:
-            raise Exception("Please provide OpenAI API key")
-
-        if api_base == ""or api_base == None:
-            api_base = os.environ.get("OPENAI_API_BASE", "")  # if not set, use the default base path of "https://api.openai.com/v1"
-        if api_base != "":
-            # e.g. https://api.openai.com/v1/ or your custom url
-            openai.api_base = api_base
-            print(f'Using custom api_base {api_base}')
-            
-        if api_model == "" or api_model == None:
-            api_model = os.environ.get("OPENAI_API_MODEL", "")
-        if api_model != "":
-            self.api_model = api_model
-        else:
-            self.api_model = "text-davinci-003"
-        print(f'Using api_model {self.api_model}')
-
-        self.use_chat_api = 'gpt' in self.api_model
-
-        # reference : https://www.promptingguide.ai/techniques/react
-        self.ReAct_prompt = ''
-        if enable_ReAct_prompting:
-            self.ReAct_prompt = "Write down your observations in format 'Observation:xxxx', then write down your thoughts in format 'Thoughts:xxxx'."
-        
+    def __init__(self, api_key, strategy="cot", evaluation_strategy="value"):
+        openai.api_key = api_key
         self.strategy = strategy
         self.evaluation_strategy = evaluation_strategy
-
-    def openai_api_call_handler(self, prompt, max_tokens, temperature, k=1, stop=None):
-        while True:
-            try:
-                if self.use_chat_api:
-                    messages = [
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ]
-                    response = openai.ChatCompletion.create(
-                        model=self.api_model,
-                        messages=messages,
-                        max_tokens=1000,
-                        temperature=temperature,
-                    )
-                else:
-                    response = openai.Completion.create(
-                        engine=self.api_model,
-                        prompt=prompt,
-                        n=k,
-                        max_tokens=max_tokens,
-                        stop=stop,
-                        temperature=temperature,
-                    )
-                return response
-            except openai.error.RateLimitError as e:
-                sleep_duratoin = os.environ.get("OPENAI_RATE_TIMEOUT", 30)
-                print(f'{str(e)}, sleep for {sleep_duratoin}s, set it by env OPENAI_RATE_TIMEOUT')
-                time.sleep(sleep_duratoin)
-
-    def openai_choice2text_handler(self, choice):
-        if self.use_chat_api:
-            text = choice['message']['content']
-        else:
-            text = choice.text.strip()
-        return text
 
     def generate_thoughts(self, state, k):
         state_text = ' '.join(state)
         
-        prompt = f"Given the current state of reasoning: '{state_text}', generate {1} coherent thoughts to continue the reasoning process:"
-        prompt += self.ReAct_prompt
-        if self.use_chat_api:
-            new_prompt_success = False
-            """
-            # Try prompt and parse in a single shot to save tokens (but if we fail, we end up spending more tokens)
-            new_prompt = prompt + "Thought string should be output in a format that can be parsed into python array in format [xxx,xxx,xxx]"
-            response = self.openai_api_call_handler(new_prompt, 100 * k, 0.5, 1)
-            text = self.openai_choice2text_handler(response.choices[0])
-            re_parse = re.search(r'\[(.*?)\]', text)
-            if re_parse:
-                thoughts_str = re_parse.group(1)
-                if thoughts_str:
-                    thoughts = thoughts_str.split(',')
-                    new_prompt_success = len(thoughts) == k 
-                    if not new_prompt_success:
-                        print(f"Fall back to multi-prompt for chat-completion due to parse fail {text}")
-
-            """
-            if not new_prompt_success:
-                thoughts = []
-                for _ in range(k):
-                    response = self.openai_api_call_handler(prompt, 50, 0.5, k)
-                    text = self.openai_choice2text_handler(response.choices[0])
-                    thoughts += [text]
-            
-        else:
-            response = self.openai_api_call_handler(prompt, 50, 0.5, k)
-            thoughts = [self.openai_choice2text_handler(choice) for choice in response.choices]
-        # print(thoughts)
-        print(f"Generated thoughts: {thoughts}")
+        prompt = f"Given the current state of reasoning: '{state_text}', generate {k} coherent thoughts to continue the reasoning process:"
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            n=k,
+            max_tokens=50,
+            stop=None,
+            temperature=0.5,
+        )
+        thoughts = [choice.text.strip() for choice in response.choices]
+        print(thoughts)
         return thoughts
 
     def evaluate_states(self, states):
@@ -145,12 +62,19 @@ class OpenAILanguageModel(AbstractLanguageModel):
             state_values = {}
             for state in states:
                 state_text = ' '.join(state)
-                prompt = f"Given the current state of reasoning: '{state_text}', evaluate its value as a float between 0 and 1, and NOTHING ELSE:"
-                response = self.openai_api_call_handler(prompt, 10, 1)
+                prompt = f"Given the current state of reasoning: '{state_text}', evaluate its value as a float between 0 and 1:"
+                response = openai.Completion.create(
+                    engine="text-davinci-003",
+                    prompt=prompt,
+                    n=1,
+                    max_tokens=10,
+                    stop=None,
+                    temperature=0.5,
+                )
                 try:
-                    value_text = self.openai_choice2text_handler(response.choices[0])
-                    value = float(value_text)
-                    print(f"value: {value}")
+                    # print(response.choices[0].text.strip())
+                    value = float(response.choices[0].text.strip())
+                    print(value)
                 except ValueError:
                     value = 0  # Assign a default value if the conversion fails
                 state_values[state] = value
@@ -158,10 +82,17 @@ class OpenAILanguageModel(AbstractLanguageModel):
 
         elif self.evaluation_strategy == 'vote':
             states_text = '\n'.join([' '.join(state) for state in states])
-            prompt = f"Given the following states of reasoning, vote for the best state:\n{states_text}\n\nVote, and NOTHING ELSE:"
-            response = self.openai_api_call_handler(prompt, 50, 1)
-            best_state_text = self.openai_choice2text_handler(response.choices[0])
-            print(f"Best state text: {best_state_text}")
+            prompt = f"Given the following states of reasoning, vote for the best state:\n{states_text}\n\nVote:"
+            response = openai.Completion.create(
+                engine="text-davinci-003",
+                prompt=prompt,
+                n=1,
+                max_tokens=50,
+                stop=None,
+                temperature=0.5,
+            )
+            best_state_text = response.choices[0].text.strip()
+            print(best_state_text)
             best_state = tuple(best_state_text.split())
             return {state: 1 if state == best_state else 0 for state in states}
 
@@ -169,8 +100,8 @@ class OpenAILanguageModel(AbstractLanguageModel):
             raise ValueError("Invalid evaluation strategy. Choose 'value' or 'vote'.")
 
 class OptimizedOpenAILanguageModel(OpenAILanguageModel):
-    def __init__(self, api_key, strategy="cot", evaluation_strategy="value", cache_enabled=True, api_base="", api_model="", enable_ReAct_prompting=True):
-        super().__init__(api_key, strategy, evaluation_strategy, api_base, api_model, enable_ReAct_prompting)
+    def __init__(self, api_key, strategy="cot", evaluation_strategy="value", cache_enabled=True):
+        super().__init__(api_key, strategy, evaluation_strategy)
         self.cache_enabled = cache_enabled
         self.thought_cache = {}
         self.state_evaluation_cache = {}
@@ -178,16 +109,19 @@ class OptimizedOpenAILanguageModel(OpenAILanguageModel):
     def parallel_generate_thoughts(self, states, k):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             thoughts = list(executor.map(lambda state: self.generate_thoughts(state, k), states))
-            print(f"Parallel generated thoughts: {thoughts}")
+            print(thoughts)
         return thoughts
 
     def parallel_evaluate_states(self, states):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             state_values = list(executor.map(self.evaluate_states, states))
-            print(f"Parallel evaluated state values: {state_values}")
+            print(state_values)
         return state_values
     
 
+# model = OptimizedOpenAILanguageModel('your_openai_api_key_here')
+
+#update tree of thoughts to use optimized models mehtods
 
 class TreeofThoughts:
     """
@@ -225,18 +159,11 @@ class TreeofThoughts:
         self.model = model
         self.search_algorithm = search_algorithm
 
-    def solve(self, x, k, T, b, vth, timeout=None):
-        start_time = time.time()
+    def solve(self, x, k, T, b, vth):
         if self.search_algorithm == 'BFS':
-            while timeout is None or time.time() - start_time < timeout:
-                result = self.tot_bfs(x, k, T, b)
-                if result:
-                    return result
+            return self.tot_bfs(x, k, T, b)
         elif self.search_algorithm == 'DFS':
-            while timeout is None or time.time() - start_time < timeout:
-                result = self.tot_dfs(x, k, T, vth)
-                if result:
-                    return result
+            return self.tot_dfs(x, k, T, vth)
         else:
             raise ValueError("Invalid search algorithm. Choose 'BFS' or 'DFS'.")
 
@@ -249,68 +176,46 @@ class TreeofThoughts:
             S0 = set(St)
         return self.model.generate_thoughts(max(St, key=lambda s: Vt[s]), 1)
 
-    def tot_dfs(self, x, k, T, vth, pruning_threshold=0.5, confidence_threshold=None, max_iterations=None, convergence_threshold=None, convergence_count=None):
+    def tot_dfs(self, x, k, T, vth):
         output = []
-        iteration_count = 0
-        consecutive_convergence_count = 0
-        prev_best_value = None
-        tree_traversed = None
 
         def dfs(s, t):
-            nonlocal consecutive_convergence_count, prev_best_value, iteration_count
             if t > T:
-                thought = self.model.generate_thoughts(s, 1)
-                value = self.model.evaluate_states({s})[s]
-                output.append((thought, value))
-
-                if confidence_threshold is not None and value >= confidence_threshold:
-                    return True
-
-                if prev_best_value is not None and convergence_threshold is not None:
-                    if abs(value - prev_best_value) < convergence_threshold:
-                        consecutive_convergence_count += 1
-                    else:
-                        consecutive_convergence_count = 0
-
-                prev_best_value = value
-                iteration_count += 1
-
-                if (max_iterations is not None and iteration_count >= max_iterations) or (convergence_count is not None and consecutive_convergence_count >= convergence_count):
-                    tree_traversed = True
-                    return True
-
-                return False
-
+                output.append(self.model.generate_thoughts(s, 1))
+                return
             for s_prime in sorted(self.model.generate_thoughts(s, k)):
-                state_value = self.model.evaluate_states({s_prime})[s_prime]
-                print(f'State values: {state_value}')
-                if state_value > vth and (pruning_threshold is None or state_value >= pruning_threshold):
-                    if dfs((*s, s_prime), t + 1):
-                        return True
-
-            return False
+                if self.model.evaluate_states({s_prime})[s_prime] > vth:
+                    dfs((*s, s_prime), t + 1)
 
         dfs(x, 1)
-        return (max(output, key=lambda x: x[1]) if output else None), tree_traversed
+        return output
 
 
 class OptimizedTreeofThoughts(TreeofThoughts):
-    def solve(self, x, k=5, T=3, b=5, vth=0.5, timeout=None, confidence_threshold=None, max_iterations=None, convergence_threshold=None, convergence_count=None):
-        start_time = time.time()
-        if self.search_algorithm == 'BFS':
-            while timeout is None or time.time() - start_time < timeout:
-                result = self.tot_bfs(x, k, T, b)
-                print(f"result: {result}")
-                if result:
-                    return result
-        elif self.search_algorithm == 'DFS':
-            while timeout is None or time.time() - start_time < timeout:
-                result, tree_traversed = self.tot_dfs(x, k, T, vth, confidence_threshold=confidence_threshold, max_iterations=max_iterations, convergence_threshold=convergence_threshold, convergence_count=convergence_count)
-                print(f'Result {result}')
-                if result or tree_traversed:
-                    return result
-        else:
-            raise ValueError("Invalid search algorithm. Choose 'BFS' or 'DFS'.")
+    def tot_bfs(self, x, k, T, b):
+        S0 = {x}
+        for t in range(1, T + 1):
+            S0_t = {(*s, z) for s in S0 for z in self.model.parallel_generate_thoughts(s, k)}
+            Vt = self.model.parallel_evaluate_states(S0_t)
+            St = sorted(S0_t, key=lambda s: Vt[s], reverse=True)[:b]
+            S0 = set(St)
+        return self.model.generate_thoughts(max(St, key=lambda s: Vt[s]), 1)
+
+    def tot_dfs(self, x, k, T, vth):
+        output = []
+
+        def dfs(s, t):
+            if t > T:
+                output.append(self.model.generate_thoughts(s, 1))
+                return
+            for s_prime in sorted(self.model.generate_thoughts(s, k)):
+                if self.model.evaluate_states({s_prime})[s_prime] > vth:
+                    dfs((*s, s_prime), t + 1)
+
+        dfs(x, 1)
+        return output
+
+    
 
 
 class TerminalExecutor:
@@ -430,7 +335,7 @@ api_key = "api key"
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
-terminal_executor = TerminalExecutor(config_file="/Users/defalt/Desktop/Athena/research/the-compiler/config.json")
+terminal_executor = TerminalExecutor(config_file="config.json")
 
 # Initialize The Compiler with the LLM and TerminalExecutor
 compiler = TheCompiler(LLM, terminal_executor)
