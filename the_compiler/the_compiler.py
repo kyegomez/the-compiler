@@ -35,6 +35,8 @@ class CustomLanguageModel(AbstractLanguageModel):
     def evaluate_states(self, states):
         #implement state evaluation logic using self.model
         pass
+
+
 class OpenAILanguageModel(AbstractLanguageModel):
     def __init__(self, api_key, strategy="cot", evaluation_strategy="value"):
         openai.api_key = api_key
@@ -98,7 +100,6 @@ class OpenAILanguageModel(AbstractLanguageModel):
 
         else:
             raise ValueError("Invalid evaluation strategy. Choose 'value' or 'vote'.")
-
 class OptimizedOpenAILanguageModel(OpenAILanguageModel):
     def __init__(self, api_key, strategy="cot", evaluation_strategy="value", cache_enabled=True):
         super().__init__(api_key, strategy, evaluation_strategy)
@@ -331,7 +332,7 @@ class TheCompiler:
         pass
 
 # Initialize the LLM
-api_key = "api key"
+api_key = ""
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
