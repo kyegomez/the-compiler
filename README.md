@@ -3,9 +3,9 @@ Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
 
 ![the-compiler](the-compiler.png)
 
-Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT) paradigm. [Implementation here](https://github.com/kyegomez/tree-of-thoughts) This project is crafted with the intent of making autonomous programming not just a reality, but an effortless task for you. 
+Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT) paradigm. [Implementation here](https://github.com/kyegomez/tree-of-thoughts) This project is crafted with the intent of making autonomous programming not just a reality, but an effortless task for you.
 
-In essence, _The Compiler_ allows you to "grow" any program you can dream of. By providing a high-level specification of the product you would like, you can sit back and let _The Compiler_ do the heavy lifting. 
+In essence, _The Compiler_ allows you to "grow" any program you can dream of. By providing a high-level specification of the product you would like, you can sit back and let _The Compiler_ do the heavy lifting.
 
 # Agora, Creators United
 The Compiler is brought to you by Agora, we're an community of creators united under the banner of Humanity.
@@ -13,9 +13,9 @@ We utilize AI research as a means to solve Humanity's biggest obstacles like foo
 
 [Join us and advance Humanity](https://discord.gg/qUtxnK2NMf)
 
-## Overview 
+## Overview
 
-_The Compiler_ leverages the ToT framework and large language models (LLMs) to handle the programming process, from abstract specifications to a working program. 
+_The Compiler_ leverages the ToT framework and large language models (LLMs) to handle the programming process, from abstract specifications to a working program.
 
 Here's a basic breakdown of the workflow:
 
@@ -26,77 +26,31 @@ Here's a basic breakdown of the workflow:
 
 
 # Usage
-Get started: 
+Get started with the beta:
 
-```git clone https://github.com/kyegomez/the-compiler.git ```
+```git clone https://github.com/kyegomez/the-compiler.git```
 
-and or 
+```git clone https://github.com/kyegomez/tree-of-thoughts.git```
 
-``` pip install tree-of-thoughts```
+```pip install tree-of-thoughts```
 
-```pip install the-compiler```
+```pip install transformers```
 
-2nd step
-``` cd the-compiler ```
+```pip install langchain```
 
-3rd step
-Create an file called config_json.json and put this inside:
+```cp tree-of-thoughts/experiements/ -r ~.local/lib/python3.10/site-packages/```
 
-```json
-{
-    "allow_terminal_execution": true
-}
-```
+```echo "export OPENAI_API_KEY=<yourapikey>" >> ~/.bashrc```
 
-4th step -- create an new file and place this inside
-``` python
+```echo "export OPENAI_API_BASE=https://api.openai.com/v1/" >> ~/.bashrc```
 
-from tree_of_thoughts import OptimizedOpenAILanguageModel
-from the_compiler import TerminalExecutor, TheCompiler
+```source ~/.bashrc```
 
-# Initialize the LLM
-api_key = "api key"
-LLM = OptimizedOpenAILanguageModel(api_key)
-
-# Initialize the TerminalExecutor
-terminal_executor = TerminalExecutor(config_file="config_file.json")
-
-# Initialize The Compiler with the LLM and TerminalExecutor
-compiler = TheCompiler(LLM, terminal_executor)
-
-# Example usage
-input_spec = "Create a simple calculator that can perform addition, subtraction, multiplication, and division"
-k = 5
-T = 3
-b = 5
-vth = 0.5
-timeout = 10
-confidence = 0.9
-max_iterations = 5
-convergence_threshold = 0.01
-convergence_count = 5
-
-# Call the compile method with the input problem and other params
-solution = compiler.compile(input_spec, k, T, b, vth, timeout, confidence_threshold=confidence, max_iterations=max_iterations, convergence_threshold=convergence_threshold, convergence_count=convergence_count)
-
-# Use the solution
-print(f"solution: {solution}")
-
-# Extract terminal commands from the solution
-terminal_commands = re.findall(r"TerminalCommand: (.+)", solution)
-
-# Execute terminal commands
-for command in terminal_commands:
-    output = terminal_executor.execute(command)
-    if output:
-        print(f"Command output: {output}") #
-
-```
-
+```python3 test.py```
 
 ## Architecture
 
-The Compiler, leveraging the Tree of Thoughts paradigm, consists of several primary components, including the Specification Parser, Thought Decomposer, Thought Generator, State Evaluator, and the Search Algorithm. 
+The Compiler, leveraging the Tree of Thoughts paradigm, consists of several primary components, including the Specification Parser, Thought Decomposer, Thought Generator, State Evaluator, and the Search Algorithm.
 
 1. **Specification Parser**: This interprets your high-level input specifications and translates them into a format that the Thought Decomposer can understand and work with.
 
@@ -125,6 +79,3 @@ If you find this project exciting and think others might benefit from it, feel f
 - [Share on Facebook](http://www.facebook.com/sharer.php?u=https://github.com/kyegomez/the-compiler)
 
 Let's revolutionize the world of programming together with _The Compiler_!
-
-
-

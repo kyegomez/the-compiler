@@ -45,7 +45,7 @@ class OpenAILanguageModel(AbstractLanguageModel):
 
     def generate_thoughts(self, state, k):
         state_text = ' '.join(state)
-        
+
         prompt = f"Given the current state of reasoning: '{state_text}', generate {k} coherent thoughts to continue the reasoning process:"
         response = openai.Completion.create(
             engine="text-davinci-003",
@@ -118,7 +118,7 @@ class OptimizedOpenAILanguageModel(OpenAILanguageModel):
             state_values = list(executor.map(self.evaluate_states, states))
             print(state_values)
         return state_values
-    
+
 
 # model = OptimizedOpenAILanguageModel('your_openai_api_key_here')
 
@@ -149,7 +149,7 @@ class TreeofThoughts:
         if t > T record the output by generating the thought for current state S
 
         for each candidate state s in the sorted list of generated thoughts for s:
-            
+
             if the evaluated value of s is greater the the threshold of vth call the dfs function recursively
             with s and t + 1
 
@@ -216,7 +216,7 @@ class OptimizedTreeofThoughts(TreeofThoughts):
         dfs(x, 1)
         return output
 
-    
+
 
 
 class TerminalExecutor:
@@ -226,7 +226,7 @@ class TerminalExecutor:
     def load_config(self, config_file):
         with open(config_file, "r") as f:
             config = json.load(f)
-        self.allow_terminal_execution = config.get("Allow_terminal_execution", False)
+        self.allow_terminal_execution = config.get("allow_terminal_execution", False)
 
     def execute(self, command):
         if self.allow_terminal_execution:
@@ -236,11 +236,11 @@ class TerminalExecutor:
             except subprocess.CalledProcessError as e:
                 print(f"Error executing command: {e}")
                 return None
-        
+
         else:
             print("Terminal execution is not allowed please enable it in the config file")
             return None
-        
+
 #example usage
 executor = TerminalExecutor()
 
@@ -332,7 +332,7 @@ class TheCompiler:
         pass
 
 # Initialize the LLM
-api_key = ""
+api_key = os.environ.get("OPENAI_API_KEY", "")
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
@@ -349,7 +349,7 @@ b = 10
 vth = 1.0
 timeout = 10
 confidence = 1.0 #cmodel is confident on performance
-max_iterations = 40 #tree branh nodes 
+max_iterations = 40 #tree branh nodes
 convergence_threshold = 0.01
 convergence_count = 5
 

@@ -2,7 +2,7 @@ from tree_of_thoughts import OptimizedOpenAILanguageModel
 from the_compiler import TerminalExecutor, TheCompiler
 
 # Initialize the LLM
-api_key = "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"
+api_key = os.environ.get("OPENAI_API_KEY", "")
 LLM = OptimizedOpenAILanguageModel(api_key)
 
 # Initialize the TerminalExecutor
