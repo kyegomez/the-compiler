@@ -32,6 +32,6 @@ generator_prompt = f"""
 Generate a suite of unit tests for a Python program that meets the following product specification: {boss1}
 """
 
-task2 = boss_node.create(objective=f"{generator_prompt}")
+task3 = boss_node.create(objective=f"{generator_prompt}")
 
-boss2 = boss_node.execute(task2)
+boss3 = boss_node.execute(task2)
