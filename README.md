@@ -16,13 +16,6 @@ Welcome, creators, to a new era of programming. Welcome to _The Compiler_, our b
 
 Just as Oppenheimer foresaw the transformative power of his work, we see the transformative potential of _The Compiler_. It will not just code for you, it will redefine how we interact with software creation.
 
-# Agora, Creators United
-"Science is not everything, but science is very beautiful." - Robert Oppenheimer
-
-We are Agora, a community of creators flying the banner of Humanity. We have harnessed the beauty of science to confront Humanity's greatest challenges, from food production to planetary security, disease, and death. 
-
-[Join us and bring forth a new dawn for Humanity](https://discord.gg/qUtxnK2NMf)
-
 ## Overview 
 
 The Compiler, an integral part of our ToT framework, employs Large Language Models (LLMs) to carry your dreams from mere abstraction to the tangible reality of working code. 
