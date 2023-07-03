@@ -131,13 +131,50 @@ The Compiler, leveraging the Tree of Thoughts paradigm, consists of several prim
 
 # Roadmap
 
-Just as the Manhattan Project didn't stop at theory, we too have grand plans to bring our vision to life:
+Our grand ambition with The Compiler is to construct an AI system that can develop and maintain any software project with little to no human assistance. The journey is a significant one, which we have broken down into three phases:
 
-- **Integration of the langchaina autogpt agent Tree of Thoughts class**: By adding this class, we will be able to expand the capabilities of our AI.
+1. **Phase 1 - Autonomous Code Generation**: Achieve a level of proficiency where the system can autonomously develop software given a high-level description and tests.
 
-- **Providing objectives to worker nodes**: This will allow us to distribute tasks among multiple worker nodes, improving efficiency.
+2. **Phase 2 - Autonomously Maintaining and Refactoring Existing Code**: Develop the system to handle existing codebases, to maintain them and refactor the code to improve efficiency and readability.
 
-- **Providing access to terminal and other tools**: We want to integrate more tools into our framework, giving you greater control and flexibility.
+3. **Phase 3 - Advanced Learning and Super Intelligence**: This phase aims for the AI to start learning from its experiences, improving its coding abilities and understanding complex code designs, ultimately working towards achieving super intelligence.
+
+# Key Milestones
+
+## Phase 1 - Autonomous Code Generation
+
+- **M1.1** - Enhance the ability of The Compiler to understand complex high-level descriptions.
+- **M1.2** - Improve unit test generation to cover all edge cases and potential bugs.
+- **M1.3** - Improve the code generator to produce efficient, clean, and highly readable code.
+- **M1.4** - Create a comprehensive benchmarking system to evaluate the efficiency, accuracy, and quality of the generated code.
+- **M1.5** - Implement feedback loops for constant learning and improvement.
+
+## Phase 2 - Autonomously Maintaining and Refactoring Existing Code
+
+- **M2.1** - Develop the ability of The Compiler to understand existing codebases.
+- **M2.2** - Enable The Compiler to identify areas of the code that require maintenance or refactoring.
+- **M2.3** - Empower The Compiler to refactor code to improve its efficiency and readability.
+- **M2.4** - Develop a testing system to ensure that the refactored code passes all original and additional tests.
+
+## Phase 3 - Advanced Learning and Super Intelligence
+
+- **M3.1** - Develop the AI's ability to learn and improve from its own coding experiences.
+- **M3.2** - Implement complex code design understanding in the AI.
+- **M3.3** - Achieve a level of super intelligence, where the AI can autonomously develop advanced software with minimal human assistance.
+
+# Bounty Program
+
+As part of our open-source ethos, we invite you to participate in our Bounty Program. The following tasks are open for bounty:
+
+- **B1** - Enhance The Compiler's ability to understand complex high-level descriptions.
+- **B2** - Improve unit test generation to cover all edge cases and potential bugs.
+- **B3** - Develop the ability of The Compiler to understand existing codebases.
+- **B4** - Enable The Compiler to refactor code to improve its efficiency and readability.
+- **B5** - Develop the AI's ability to learn and improve from its own coding experiences.
+
+Each of these bounties has its own reward, and we are grateful for your contributions. Together, we can revolutionize the world of programming with _The Compiler_!
+
+In case you need more guidance, please don't hesitate to reach out on our Discord channel. Your support and contributions will take us closer to our mission of advancing humanity.
 
 ## Share The Compiler
 
