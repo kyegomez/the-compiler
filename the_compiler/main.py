@@ -60,9 +60,9 @@ class TheCompiler:
 
         return code, unit_tests
 
-create = "What do you want to create?"
-compiler = TheCompiler(create)
-code, unit_tests = compiler.generate_code()
+# create = "What do you want to create?"
+# compiler = TheCompiler(create)
+# code, unit_tests = compiler.generate_code()
 
 
 

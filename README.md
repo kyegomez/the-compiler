@@ -1,107 +1,126 @@
 # Agora
-Agora is an new open source Multi-Modality AI Research Organization devoted to advancing Humanity!
+"We are all apprentices in a craft where no one ever becomes a master." - Ernest Hemingway
+
+We at Agora share Hemingway's sentiment. We are an open source Multi-Modality AI Research Organization, a humble group of pioneers striving to broaden Humanity's horizons. 
 
 ![Agora banner](agora-banner.png)
 
-[Join our Agora discord and contribute to this project or 40+ others!](https://discord.gg/qUtxnK2NMf)
-
-
+[Join our discord and contribute to this grand project!](https://discord.gg/qUtxnK2NMf)
 
 # The-Compiler
-Seed, Code, Harvest: Grow Your Own App with Tree of Thoughts!
+"It is not enough that you should understand about applied science in order that your work may increase man's blessings." - Robert Oppenheimer
 
 ![the-compiler](the-compiler.png)
 
-Welcome to _The Compiler_, a novel child project under the Tree of Thoughts (ToT) paradigm. [Implementation here](https://github.com/kyegomez/tree-of-thoughts) This project is crafted with the intent of making autonomous programming not just a reality, but an effortless task for you. 
+Welcome, creators, to a new era of programming. Welcome to _The Compiler_, our brainchild nestled under the Tree of Thoughts (ToT) paradigm. We stand at the precipice of a revolution, about to reshape how we approach programming. 
 
-In essence, _The Compiler_ allows you to "grow" any program you can dream of. By providing a high-level specification of the product you would like, you can sit back and let _The Compiler_ do the heavy lifting. 
+Just as Oppenheimer foresaw the transformative power of his work, we see the transformative potential of _The Compiler_. It will not just code for you, it will redefine how we interact with software creation.
 
 # Agora, Creators United
-The Compiler is brought to you by Agora, we're an community of creators united under the banner of Humanity.
-We utilize AI research as a means to solve Humanity's biggest obstacles like food production, planetary security, disease, and death
+"Science is not everything, but science is very beautiful." - Robert Oppenheimer
 
-[Join us and advance Humanity](https://discord.gg/qUtxnK2NMf)
+We are Agora, a community of creators flying the banner of Humanity. We have harnessed the beauty of science to confront Humanity's greatest challenges, from food production to planetary security, disease, and death. 
+
+[Join us and bring forth a new dawn for Humanity](https://discord.gg/qUtxnK2NMf)
 
 ## Overview 
 
-_The Compiler_ leverages the ToT framework and large language models (LLMs) to handle the programming process, from abstract specifications to a working program. 
+The Compiler, an integral part of our ToT framework, employs Large Language Models (LLMs) to carry your dreams from mere abstraction to the tangible reality of working code. 
 
-Here's a basic breakdown of the workflow:
+Here's the essence of our workflow:
 
-1. **Input**: You provide an abstract specification for the product you would like.
-2. **Unit Tests Generation**: We use an LLM on ToT to produce a suite of unit tests for the code.
-3. **Run ToT**: We run the Tree of Thoughts LLM on the given specification, using the generated unit tests as the evaluation score.
-4. **Output**: Ready to use program!
-
+1. **Seed**: You plant the seed - a high-level specification for the software you desire.
+2. **Grow**: We cultivate your idea, using an LLM to craft a suite of unit tests that will serve as the litmus test for the code.
+3. **Blossom**: We run the ToT LLM, letting your idea bloom into fully-formed code, using the unit tests to guide its development.
+4. **Harvest**: A working program ripe for use!
 
 # Usage
-Get started: 
 
-```git clone https://github.com/kyegomez/the-compiler.git ```
+There are 2 methods, `git clone` and or `pip install the-compiler`here are the usage instructions for both methods:
 
-and or 
+## Git Clone Method
 
-``` pip install tree-of-thoughts```
+To start with, clone the GitHub repository by running the following command in your terminal:
 
-```pip install the-compiler```
-
-2nd step
-``` cd the-compiler ```
-
-3rd step
-Create an file called config_json.json and put this inside:
-
-```json
-{
-    "allow_terminal_execution": true
-}
+```bash
+git clone https://github.com/kyegomez/the-compiler.git
 ```
 
-4th step -- create an new file and place this inside
-``` python
+Navigate into the project directory:
 
-from tree_of_thoughts import OptimizedOpenAILanguageModel
-from the_compiler import TerminalExecutor, TheCompiler
-
-# Initialize the LLM
-api_key = "api key"
-LLM = OptimizedOpenAILanguageModel(api_key)
-
-# Initialize the TerminalExecutor
-terminal_executor = TerminalExecutor(config_file="config_file.json")
-
-# Initialize The Compiler with the LLM and TerminalExecutor
-compiler = TheCompiler(LLM, terminal_executor)
-
-# Example usage
-input_spec = "Create a simple calculator that can perform addition, subtraction, multiplication, and division"
-k = 5
-T = 3
-b = 5
-vth = 0.5
-timeout = 10
-confidence = 0.9
-max_iterations = 5
-convergence_threshold = 0.01
-convergence_count = 5
-
-# Call the compile method with the input problem and other params
-solution = compiler.compile(input_spec, k, T, b, vth, timeout, confidence_threshold=confidence, max_iterations=max_iterations, convergence_threshold=convergence_threshold, convergence_count=convergence_count)
-
-# Use the solution
-print(f"solution: {solution}")
-
-# Extract terminal commands from the solution
-terminal_commands = re.findall(r"TerminalCommand: (.+)", solution)
-
-# Execute terminal commands
-for command in terminal_commands:
-    output = terminal_executor.execute(command)
-    if output:
-        print(f"Command output: {output}") #
-
+```bash
+cd the-compiler
 ```
 
+Install the dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Use the application. Here's an example usage:
+
+```python
+from the_compiler import Architect, Developer, UnitTester
+
+# Initialize the components
+architect = Architect()
+developer = Developer()
+unit_tester = UnitTester()
+
+# Define the task
+task = "Create a simple calculator in Python"
+
+# Use the Architect to create the architecture and breakdown
+architecture, breakdown = architect.create_architecture(task)
+
+# Use the Developer to write the code
+code = developer.write_code(breakdown)
+
+# Use the UnitTester to create the tests
+tests = unit_tester.create_tests(code)
+
+# Print the code and tests
+print("Code:", code)
+print("Tests:", tests)
+```
+
+## Pip Install Method
+
+First, install The Compiler via pip:
+
+```bash
+pip install the-compiler
+```
+
+Then, you can start using it in your Python scripts. Here's an example:
+
+```python
+from the_compiler import Architect, Developer, UnitTester
+
+# Initialize the components
+architect = Architect()
+developer = Developer()
+unit_tester = UnitTester()
+
+# Define the task
+task = "Create a simple calculator in Python"
+
+# Use the Architect to create the architecture and breakdown
+architecture, breakdown = architect.create_architecture(task)
+
+# Use the Developer to write the code
+code = developer.write_code(breakdown)
+
+# Use the UnitTester to create the tests
+tests = unit_tester.create_tests(code)
+
+# Print the code and tests
+print("Code:", code)
+print("Tests:", tests)
+```
+
+These examples show the basic usage of The Compiler's classes. Please adjust according to your needs and don't forget to handle possible exceptions.
 
 ## Architecture
 
@@ -119,11 +138,13 @@ The Compiler, leveraging the Tree of Thoughts paradigm, consists of several prim
 
 # Roadmap
 
-- Integrate langchaina autogpt agent Tree of Thoughts class
+Just as the Manhattan Project didn't stop at theory, we too have grand plans to bring our vision to life:
 
-- Provide objectives to worker nodes
+- **Integration of the langchaina autogpt agent Tree of Thoughts class**: By adding this class, we will be able to expand the capabilities of our AI.
 
-- Provide access to terminal and other tools
+- **Providing objectives to worker nodes**: This will allow us to distribute tasks among multiple worker nodes, improving efficiency.
+
+- **Providing access to terminal and other tools**: We want to integrate more tools into our framework, giving you greater control and flexibility.
 
 ## Share The Compiler
 
@@ -135,5 +156,7 @@ If you find this project exciting and think others might benefit from it, feel f
 
 Let's revolutionize the world of programming together with _The Compiler_!
 
+
+As Oppenheimer quoted from the Bhagavad Gita upon the successful test of his creation, "Now I am become Death, the destroyer of worlds." We, too, hope to become destroyers of worlds, the old worlds of antiquated programming practices, replacing them with a new era of coding. Join us in this journey.
 
 

@@ -17,7 +17,7 @@ setup(
     "Prompt Engineering"
   ],
   install_requires=[
-    "tree-of-thoughts"
+    "swarms"
   ],
   classifiers=[
     'Development Status :: 4 - Beta',
