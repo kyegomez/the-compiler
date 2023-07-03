@@ -5,9 +5,9 @@ openai_api_key = os.getenv('OPENAI_API_KEY', 'your-api-key')
 
 
 #   Initialize the components
-architect = Architect(openai_api_key='')
-developer = Developer()
-unit_tester = UnitTester()
+architect = Architect(openai_api_key=openai_api_key)
+developer = Developer(openai_api_key=openai_api_key)
+unit_tester = UnitTester(openai_api_key=openai_api_key)
 
 #   Define the task
 task = "Create a simple calculator in Python"
