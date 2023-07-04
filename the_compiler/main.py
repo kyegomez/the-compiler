@@ -1,5 +1,5 @@
 import os
-from swarms import worker_node, boss_node
+from swarms import Swarms
 
 
 class Architect:
@@ -43,22 +43,90 @@ class TestCreator:
         return self.boss_node.execute(task)
 
 
+
 class TheCompiler:
-    def __init__(self, create, api_key):
-        self.create = create
-        self.api_key = api_key
+    def __init__(self, api_key):
+        self.swarms = Swarms(api_key=api_key)
 
-    def generate_code(self):
-        architect = Architect(self.create, self.api_key)
-        architecture = architect.generate_architecture()
+    def run(self, create):
+        architecture = self.swarms.run_swarms(
+            objective=f"Create an architectural analysis specification in markdown in the most optimal programming language for {create}, provide the fastest, reliable architecture, and then break down that architecture into classes and algorithms needed to create {create}"
+        )
 
-        test_creator = TestCreator(architecture, self.api_key)
-        unit_tests = test_creator.generate_tests()
+        unit_tests = self.swarms.run_swarms(
+            objective=f"Generate a suite of unit tests for a Python program that meets the following product specification: {architecture}"
+        )
 
-        code_generator = CodeGenerator(architecture, self.create, self.api_key, unit_tests)
-        code = code_generator.generate_code()
+        code = self.swarms.run_swarms(
+            objective=f"Generate a Python program that meets the following product specification: {architecture} to create: {create}. Use the following unit tests as an evaluation score: {unit_tests}."
+        )
+        return code
 
-        return code, unit_tests
+api_key = ""  # Your OpenAI API key
+create = "a simple calculator program"
+
+compiler = TheCompiler(api_key)
+code = compiler.run(create)
+
+print("Generated Code:\n", code)
+
+
+
+
+
+
+
+
+
+
+
+# class TheCompiler(Swarms):
+#     def __init__(self, api_key):
+#         super().__init__(api_key=api_key)
+
+#     def _generate_architecture(self, create):
+#         objective = f"""
+#         Create an architectural analysis specification in markdown in the most optimal programming language for {create}, provide the fastest, reliable architecture, and then break down that architecture into classes and algorithms needed to create {create}
+#         """
+#         return self.run_swarms(objective=objective)
+
+#     def _generate_tests(self, boss1):
+#         objective = f"""
+#         Generate a suite of unit tests for a Python program that meets the following product specification: {boss1}
+#         """
+#         return self.run_swarms(objective=objective)
+
+#     def _generate_code(self, boss1, create, unit_tests):
+#         objective = f"""
+#         Generate a Python program that meets the following product specification: {boss1} to create: {create}. Use the following unit tests as an evaluation score: {unit_tests}.
+#         """
+#         return self.run_swarms(objective=objective)
+
+#     def run(self, create):
+#         architecture = self._generate_architecture(create)
+#         unit_tests = self._generate_tests(architecture)
+#         code = self._generate_code(architecture, create, unit_tests)
+#         return code, unit_tests
+
+
+
+
+# class TheCompiler:
+    # def __init__(self, create, api_key):
+    #     self.create = create
+    #     self.api_key = api_key
+
+    # def generate_code(self):
+    #     architect = Architect(self.create, self.api_key)
+    #     architecture = architect.generate_architecture()
+
+    #     test_creator = TestCreator(architecture, self.api_key)
+    #     unit_tests = test_creator.generate_tests()
+
+    #     code_generator = CodeGenerator(architecture, self.create, self.api_key, unit_tests)
+    #     code = code_generator.generate_code()
+
+    #     return code, unit_tests
 
 
 # # Sample usage
