@@ -1,1 +1,1 @@
-from the_compiler.main import Architect, CodeGenerator, TestCreator, TheCompiler
+from the_compiler.main import TheCompiler
