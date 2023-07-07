@@ -89,28 +89,16 @@ pip install the-compiler
 Then, you can start using it in your Python scripts. Here's an example:
 
 ```python
-from the_compiler import Architect, Developer, UnitTester
+from the_compiler import TheCompiler
 
-# Initialize the components
-architect = Architect()
-developer = Developer()
-unit_tester = UnitTester()
+api_key = ""  # Your OpenAI API key
 
-# Define the task
-task = "Create a simple calculator in Python"
+create = "a simple calculator program"
+compiler = TheCompiler(api_key)
 
-# Use the Architect to create the architecture and breakdown
-architecture, breakdown = architect.create_architecture(task)
+code = compiler.run(create)
+print("Generated Code:\n", code)
 
-# Use the Developer to write the code
-code = developer.write_code(breakdown)
-
-# Use the UnitTester to create the tests
-tests = unit_tester.create_tests(code)
-
-# Print the code and tests
-print("Code:", code)
-print("Tests:", tests)
 ```
 
 These examples show the basic usage of The Compiler's classes. Please adjust according to your needs and don't forget to handle possible exceptions.

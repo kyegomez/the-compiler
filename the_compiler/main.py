@@ -46,32 +46,35 @@ class TestCreator:
 
 class TheCompiler:
     def __init__(self, api_key):
+        if not api_key:
+            raise ValueError("API key is required")
         self.swarms = Swarms(api_key=api_key)
 
     def run(self, create):
-        architecture = self.swarms.run_swarms(
-            objective=f"Create an architectural analysis specification in markdown in the most optimal programming language for {create}, provide the fastest, reliable architecture, and then break down that architecture into classes and algorithms needed to create {create}"
-        )
+        if not create:
+            raise ValueError("You need to specify what to create")
+        
+        try:
+            architecture = self.swarms.run_swarms(
+                objective=f"Create an architectural analysis specification in markdown in the most optimal programming language for {create}, provide the fastest, reliable architecture, and then break down that architecture into classes and algorithms needed to create {create}"
+            )
 
-        unit_tests = self.swarms.run_swarms(
-            objective=f"Generate a suite of unit tests for a Python program that meets the following product specification: {architecture}"
-        )
+            unit_tests = self.swarms.run_swarms(
+                objective=f"Generate a suite of unit tests for a Python program that meets the following product specification: {architecture}"
+            )
 
-        code = self.swarms.run_swarms(
-            objective=f"Generate a Python program that meets the following product specification: {architecture} to create: {create}. Use the following unit tests as an evaluation score: {unit_tests}."
-        )
+            code = self.swarms.run_swarms(
+                objective=f"Generate a Python program that meets the following product specification: {architecture} to create: {create}. Use the following unit tests as an evaluation score: {unit_tests}."
+            )
+        except Exception as e:
+            raise RuntimeError("An error occurred while generating the code") from e
         return code
 
-api_key = ""  # Your OpenAI API key
-create = "a simple calculator program"
-
-compiler = TheCompiler(api_key)
-code = compiler.run(create)
-
-print("Generated Code:\n", code)
-
-
-
+# api_key = ""  # Your OpenAI API key
+# create = "a simple calculator program"
+# compiler = TheCompiler(api_key)
+# code = compiler.run(create)
+# print("Generated Code:\n", code)
 
 
 
