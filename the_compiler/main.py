@@ -63,12 +63,12 @@ class TheCompiler:
                 objective=f"Generate a suite of unit tests for a Python program that meets the following product specification: {architecture}"
             )
 
-            code = self.swarms.run_swarms(
+            generate_code = self.swarms.run_swarms(
                 objective=f"Generate a Python program that meets the following product specification: {architecture} to create: {create}. Use the following unit tests as an evaluation score: {unit_tests}."
             )
         except Exception as e:
             raise RuntimeError("An error occurred while generating the code") from e
-        return code
+        return generate_code
 
 # api_key = ""  # Your OpenAI API key
 # create = "a simple calculator program"
