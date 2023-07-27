@@ -1,1 +1,0 @@
-from the_compiler.main import TheCompiler
